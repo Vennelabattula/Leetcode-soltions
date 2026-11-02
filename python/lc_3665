@@ -1,0 +1,23 @@
+from typing import List
+
+class Solution:
+    def uniquePaths(self, grid: List[List[int]]) -> int:
+        MOD = 10**9 + 7
+        m, n = len(grid), len(grid[0])
+
+        dp = [[0, 0] for _ in range(n)]
+        dp[0] = [1, 1]
+
+        for i in range(m):
+            for j in range(n):
+                right, down = dp[j]
+
+                if grid[i][j] == 0:
+                    dp[j][0] = (dp[j - 1][0] + down) % MOD if j > 0 else down
+                    dp[j][1] = dp[j][0]
+                else:
+                    dp[j][0] = down
+                    dp[j][1] = dp[j - 1][0] if j > 0 else 0
+
+        return dp[n - 1][0]
+        
